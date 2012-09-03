@@ -227,7 +227,7 @@ Dklab_Realplexor_Loader = {
     		}
     		return parts.join(",");
     	},
-    	
+
 	// Loop function.
 	_loopFunc: function() {
 		var requestId = this._makeRequestId();
@@ -262,6 +262,7 @@ Dklab_Realplexor_Loader = {
 			th = null;
 		}
 		xmlhttp.send(postData);
+        this._additionalCall();
 		this._prevReqTime = new Date().getTime();
 		this._lastXmlhttp = xmlhttp;
 	},
@@ -271,8 +272,9 @@ Dklab_Realplexor_Loader = {
 	// Second parameter must accept a function which will be called to
 	// call parent's callbacks (it is needed for IE, to not to loose
 	// exceptions thrown from a different frame).
-	execute: function(callbacks, callAndReturnException, namespace) {
+	execute: function(callbacks, callAndReturnException, namespace, _additionalCall) {
 		var th = this;
+        this._additionalCall = _additionalCall;
 		window.onunload = function() { 
 			// This is for IE7: it does not abort the connection on unload
 			// and reaches the connection limit.
